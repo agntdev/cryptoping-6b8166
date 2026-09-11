@@ -6,8 +6,16 @@ import type { StorageAdapter } from "grammy";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  // example: step?: "awaiting_amount";
+  step?: "ticker" | "absolute" | "percent" | "quiet" | "summary" | "timezone";
+  ticker?: string;
+  direction?: "above" | "below" | "increase" | "decrease" | "both";
+  profile?: { timezone: string; quietStart?: string; quietEnd?: string; summaryTime?: string; analytics?: boolean };
+  watchlist?: Record<string, { rules: AlertRule[]; lastPrice?: number }>;
+  queued?: QueuedAlert[];
 }
+
+export interface AlertRule { id: string; type: "absolute" | "percent"; direction: "above" | "below" | "increase" | "decrease" | "both"; threshold: number; window: number; cooldownUntil?: number; createdAt: string; }
+export interface QueuedAlert { ruleId: string; ticker: string; price: number; triggeredAt: string; }
 
 export type Ctx = BotContext<Session>;
 
