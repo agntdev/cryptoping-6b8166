@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Return current price for a ticker or the user's watchlist; use argument for specific ticker or 'all'."
+              "text": "No coins yet — add one before checking prices."
             }
           }
         ],

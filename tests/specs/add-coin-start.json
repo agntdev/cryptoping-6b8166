@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Launch add-coin flow; offers seed coins and 'Add custom ticker' entry."
+              "text": "Enter a ticker symbol, such as ADA."
             }
           }
         ],

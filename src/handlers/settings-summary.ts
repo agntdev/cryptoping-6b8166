@@ -1,0 +1,11 @@
+import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { inlineButton, inlineKeyboard, registerMainMenuItem } from "../toolkit/index.js";
+import { profile, timeValid } from "./crypto.js";
+registerMainMenuItem({ label: "Morning summary", data: "summary:open", order: 35 });
+const composer = new Composer<Ctx>();
+composer.callbackQuery("summary:open", async (ctx) => { await ctx.answerCallbackQuery(); const time = profile(ctx).summaryTime; await ctx.reply(time ? `Morning summary is set for ${time}.` : "Morning summary is off.", { reply_markup: inlineKeyboard([[inlineButton("Set time", "summary:set"), inlineButton("Turn off", "summary:off")]]) }); });
+composer.callbackQuery("summary:set", async (ctx) => { await ctx.answerCallbackQuery(); ctx.session.step = "summary"; await ctx.reply("Enter your local summary time as HH:MM.", { reply_markup: { force_reply: true, input_field_placeholder: "08:00" } }); });
+composer.callbackQuery("summary:off", async (ctx) => { await ctx.answerCallbackQuery(); delete profile(ctx).summaryTime; await ctx.editMessageText("Morning summary is off."); });
+composer.on("message:text", async (ctx, next) => { if (ctx.session.step !== "summary") return next(); const time = ctx.message.text.trim(); if (!timeValid(time)) { await ctx.reply("Use a time such as 08:00."); return; } profile(ctx).summaryTime = time; ctx.session.step = undefined; await ctx.reply(`Morning summary is set for ${time}.`); });
+export default composer;

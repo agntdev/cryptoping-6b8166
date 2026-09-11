@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Open user's watchlist with per-coin inline actions: View, Remove, Configure alerts."
+              "text": "No coins yet — tap Add coin to start."
             }
           }
         ],

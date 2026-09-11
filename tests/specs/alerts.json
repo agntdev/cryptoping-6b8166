@@ -1,0 +1,7 @@
+[
+  { "name": "BTC can be added and configured", "steps": [
+    { "send": { "callback": "add_coin:BTC" }, "expect": [{ "method": "editMessageText", "payload": { "text": "BTC is on your watchlist." } }] },
+    { "send": { "callback": "watchlist:configure:BTC" }, "expect": [{ "method": "editMessageText", "payload": { "text": "Set an alert for BTC." } }] },
+    { "send": { "callback": "alert:absolute" }, "expect": [{ "method": "editMessageText", "payload": { "text": "Choose when the price should alert you." } }] }
+  ] }
+]

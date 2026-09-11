@@ -1,0 +1,10 @@
+import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { confirmKeyboard, inlineButton, inlineKeyboard, registerMainMenuItem } from "../toolkit/index.js";
+registerMainMenuItem({ label: "Your data", data: "privacy:open", order: 50 });
+const composer = new Composer<Ctx>();
+composer.callbackQuery("privacy:open", async (ctx) => { await ctx.answerCallbackQuery(); await ctx.reply("Export your settings and watchlist, or permanently delete them.", { reply_markup: inlineKeyboard([[inlineButton("Export data", "privacy:export"), inlineButton("Delete data", "privacy:delete")]]) }); });
+composer.callbackQuery("privacy:export", async (ctx) => { await ctx.answerCallbackQuery(); const payload = JSON.stringify({ profile: ctx.session.profile ?? {}, watchlist: ctx.session.watchlist ?? {} }, null, 2); await ctx.reply(`Your data:\n${payload}`); });
+composer.callbackQuery("privacy:delete", async (ctx) => { await ctx.answerCallbackQuery(); await ctx.editMessageText("Delete your watchlist, alerts, and settings?", { reply_markup: confirmKeyboard("privacy:confirm", { yes: "Delete", no: "Keep" }) }); });
+composer.callbackQuery(/^privacy:confirm:(yes|no)$/, async (ctx) => { await ctx.answerCallbackQuery(); if (ctx.match[1] === "no") { await ctx.editMessageText("Your data is unchanged."); return; } delete ctx.session.profile; delete ctx.session.watchlist; delete ctx.session.queued; await ctx.editMessageText("Your data was deleted."); });
+export default composer;

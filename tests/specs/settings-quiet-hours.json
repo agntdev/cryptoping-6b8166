@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Open quiet-hours configuration UI (buttons for common ranges + custom time input)."
+              "text": "Choose when alerts should wait."
             }
           }
         ],
