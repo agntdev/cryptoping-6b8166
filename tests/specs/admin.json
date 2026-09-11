@@ -1,0 +1,30 @@
+[
+  {
+    "name": "/admin_stats explains when owner access is not configured",
+    "steps": [
+      {
+        "send": { "text": "/admin_stats" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "Owner access isn't set up yet." }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "/admin_export_recent_fires explains when owner access is not configured",
+    "steps": [
+      {
+        "send": { "text": "/admin_export_recent_fires" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "Owner access isn't set up yet." }
+          }
+        ]
+      }
+    ]
+  }
+]
